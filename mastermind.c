@@ -12,5 +12,9 @@ int main(void)
     getInput(&input);
     printf("%d %d %d %d\n", input.boxOne, input.boxTwo, input.boxThree, input.boxFour);
 
+    
+    printf("Red = %d\n", redCompare(&answer, &input));
+    printf("white = %d\n", whiteCompare(&answer, input.boxOne));
+
     return 0;
 }

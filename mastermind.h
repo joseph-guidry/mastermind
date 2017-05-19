@@ -8,13 +8,17 @@ typedef struct guess{
     int boxFour;
 } guess ; 
 
+/* Prototypes */
 void
 getAnswer(struct guess *answer);
-
 void
 getInput(struct guess *input);
 int
 makeInt(char letter);
+int
+redCompare(struct guess *answer, struct guess *input);
+int
+whiteCompare(struct guess *answer, int box);
 
 void
 getAnswer(struct guess *answer)
@@ -89,4 +93,56 @@ makeInt(char letter)
     num = letter - '0';
     
     return num;
+}
+
+
+int
+whiteCompare(struct guess *answer, int box)
+{
+    int white = 0;
+    if (box == answer -> boxOne)
+    {
+        white++;
+    }
+    if (box == answer -> boxTwo)
+    {
+        white++;
+    }
+    if (box == answer -> boxThree)
+    {
+        white++;
+    }
+    if (box == answer -> boxFour)
+    {
+        white++;
+    }
+    
+    return white;
+    
+}
+
+
+int
+redCompare(struct guess *answer, struct guess *input)
+{
+    int red = 0; 
+    
+    if (answer -> boxOne == input -> boxOne)
+    {
+        red++;
+    }
+    if (answer -> boxTwo == input -> boxTwo)
+    {
+        red++;
+    }
+    if (answer -> boxThree == input -> boxThree)
+    {
+        red++;
+    }
+    if (answer -> boxFour == input -> boxFour)
+    {
+        red++;
+    }
+    
+    return red;
 }
