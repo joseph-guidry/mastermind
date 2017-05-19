@@ -5,6 +5,8 @@
 int
 playGame(struct guess *answer, struct guess *input);
 
+
+
 int main(void)
 {
     struct guess answer, input;
@@ -42,10 +44,9 @@ playGame(struct guess *answer, struct guess *input)
     
     int allRed;
     allRed = redCompare(&temp, input);
-    printf("Red = %d| ",allRed);
-    printf("%d %d %d %d\n", answer->boxOne, answer->boxTwo, answer->boxThree, answer->boxFour);
+    printf("Red = %d|",allRed);
+    //printf("%d %d %d %d\n", answer->boxOne, answer->boxTwo, answer->boxThree, answer->boxFour);
     printf("White = %d|\n", getWhiteValue(&temp, input));
     return (allRed == 4 ? 1 : 0);
 
 }
-
