@@ -21,6 +21,8 @@ int
 getWhiteValue(struct guess *answer, struct guess *input);
 int
 whiteCompare(struct guess *answer, int box);
+void
+structureCopy(struct guess *temp, struct guess *answer);
 
 void
 getAnswer(struct guess *answer)
@@ -66,28 +68,28 @@ getInput(struct guess *input)
     char c;
     
     printf("Enter a guess of four digits:  ");
-    if ( (c = getc(stdin)) != EOF)
+    if ( (c = fgetc(stdin)) != EOF)
     {
         input -> boxOne = makeInt(c);
     }
-    if ( (c = getc(stdin)) != EOF)
+    if ( (c = fgetc(stdin)) != EOF)
     {
         input -> boxTwo = makeInt(c);
     }
-    if ( (c = getc(stdin)) != EOF)
+    if ( (c = fgetc(stdin)) != EOF)
     {
         input -> boxThree = makeInt(c);
     }
-    if ( (c = getc(stdin)) != EOF)
+    if ( (c = fgetc(stdin)) != EOF)
     {
         input -> boxFour = makeInt(c);
     }
-    else
+    while((c = fgetc(stdin)) != '\n')
     {
-        printf("Enter 4 digits please\n");
+        c = getc(stdin);
+        c = 0;
     }
 }
-
 int
 makeInt(char letter)
 {
@@ -96,8 +98,19 @@ makeInt(char letter)
     
     return num;
 }
-
-int getWhiteValue(struct guess *answer, struct guess *input)
+void
+structureCopy(struct guess *temp, struct guess *answer)
+{
+    //struct guess temp;
+    temp -> boxOne = answer -> boxOne;
+    temp -> boxTwo = answer -> boxTwo;
+    temp -> boxThree = answer -> boxThree;
+    temp -> boxFour =  answer -> boxFour;
+    
+    
+}
+int 
+getWhiteValue(struct guess *answer, struct guess *input)
 {
     int white = 0;
     whiteCompare(answer, input -> boxOne);
@@ -129,10 +142,7 @@ whiteCompare(struct guess *answer, int box)
     }
     
     return white;
-    
 }
-
-
 int
 redCompare(struct guess *answer, struct guess *input)
 {
@@ -140,18 +150,22 @@ redCompare(struct guess *answer, struct guess *input)
     
     if (answer -> boxOne == input -> boxOne)
     {
+        answer -> boxOne = 100;
         red++;
     }
     if (answer -> boxTwo == input -> boxTwo)
     {
+        answer -> boxTwo = 100;
         red++;
     }
     if (answer -> boxThree == input -> boxThree)
     {
+        answer -> boxThree = 100;
         red++;
     }
     if (answer -> boxFour == input -> boxFour)
     {
+        answer -> boxFour = 100;
         red++;
     }
     

@@ -2,19 +2,55 @@
 #include <stdlib.h>
 #include "mastermind.h"
 
+int
+playGame(struct guess *answer, struct guess *input);
+
+
+
 int main(void)
 {
     struct guess answer, input;
-
+    int guess = 0;
     getAnswer(&answer);
     printf("%d %d %d %d\n", answer.boxOne, answer.boxTwo, answer.boxThree, answer.boxFour);
+    while(1)
+    {
+        getInput(&input);
+        printf("%d %d %d %d\n", input.boxOne, input.boxTwo, input.boxThree, input.boxFour);
+        guess++;
+        
+        
+        if (playGame(&answer, &input))
+        {
+            break;
+        }
+        
+    }
     
-    getInput(&input);
-    printf("%d %d %d %d\n", input.boxOne, input.boxTwo, input.boxThree, input.boxFour);
-
-    
-    printf("Red = %d\n", redCompare(&answer, &input));
-    printf("white = %d\n", getWhiteValue(&answer, &input));
+    printf("You guess it in %d %s.\n", guess, guess == 1 ? "turn" : "turns");
 
     return 0;
+}
+
+int
+playGame(struct guess *answer, struct guess *input)
+{
+    struct guess temp, *ptemp;
+    ptemp = &temp;
+    structureCopy(ptemp, answer);
+    
+    int allRed;
+    allRed = redCompare(&temp, input);
+    printf("Red = %d\n",allRed);
+    printf("white = %d\n", getWhiteValue(&temp, input));
+    if (allRed == 4)
+    {
+        return 1;
+    }
+    else
+    {
+    
+        return 0;
+    }
+
 }
