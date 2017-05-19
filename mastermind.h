@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <time.h>
 typedef struct guess{
     int boxOne;
     int boxTwo;
@@ -31,6 +31,7 @@ getAnswer(struct guess *answer)
         Generate random numbers and store in answer structure.
     */
     int num = 0;
+    srand(time(NULL));
     num =  random() % 10;
     answer->boxOne = num;
     while((num =  (random() % 10)))
@@ -65,6 +66,7 @@ getAnswer(struct guess *answer)
 void
 getInput(struct guess *input)
 {
+    /* Get input a single character at a time. */
     char c;
     
     printf("Enter a guess of four digits:  ");
@@ -101,42 +103,42 @@ makeInt(char letter)
 void
 structureCopy(struct guess *temp, struct guess *answer)
 {
-    //struct guess temp;
     temp -> boxOne = answer -> boxOne;
     temp -> boxTwo = answer -> boxTwo;
     temp -> boxThree = answer -> boxThree;
     temp -> boxFour =  answer -> boxFour;
-    
-    
 }
 int 
 getWhiteValue(struct guess *answer, struct guess *input)
 {
     int white = 0;
-    white += whiteCompare(answer, input -> boxOne, white);
-    white += whiteCompare(answer, input -> boxTwo, white);
-    white += whiteCompare(answer, input -> boxThree, white);
+    white = whiteCompare(answer, input -> boxOne, white);
+    printf("in boxOne: %d \n", white);
+    white = whiteCompare(answer, input -> boxTwo, white);
+    printf("in boxTwo: %d \n", white);
+    white = whiteCompare(answer, input -> boxThree, white);
+    printf("in boxThree: %d \n", white);
     white = whiteCompare(answer, input -> boxFour, white);
     
+    printf("in boxFour: %d \n", white);
     return white;
 }
 int
 whiteCompare(struct guess *answer, int box, int white)
 {
-    //static int white = 0;
-    if (box == answer -> boxOne)
+    if (box == answer -> boxOne )
     {
         white++;
     }
-    if (box == answer -> boxTwo)
+    if (box == answer -> boxTwo && ((answer -> boxTwo) != ( answer -> boxOne)) )
     {
         white++;
     }
-    if (box == answer -> boxThree)
+    if (box == answer -> boxThree && ((answer -> boxTwo != answer -> boxThree) && (answer -> boxOne !=  answer -> boxThree)))
     {
         white++;
     }
-    if (box == answer -> boxFour)
+    if ((box == answer -> boxFour) && ((answer -> boxThree != answer -> boxFour) && (answer -> boxTwo != answer -> boxFour) && (answer -> boxOne !=  answer -> boxFour)))
     {
         white++;
     }
