@@ -20,7 +20,7 @@ redCompare(struct guess *answer, struct guess *input);
 int
 getWhiteValue(struct guess *answer, struct guess *input);
 int
-whiteCompare(struct guess *answer, int box);
+whiteCompare(struct guess *answer, int box, int white);
 void
 structureCopy(struct guess *temp, struct guess *answer);
 
@@ -113,17 +113,17 @@ int
 getWhiteValue(struct guess *answer, struct guess *input)
 {
     int white = 0;
-    whiteCompare(answer, input -> boxOne);
-    whiteCompare(answer, input -> boxTwo);
-    whiteCompare(answer, input -> boxThree);
-    white = whiteCompare(answer, input -> boxFour);
+    white += whiteCompare(answer, input -> boxOne, white);
+    white += whiteCompare(answer, input -> boxTwo, white);
+    white += whiteCompare(answer, input -> boxThree, white);
+    white = whiteCompare(answer, input -> boxFour, white);
     
     return white;
 }
 int
-whiteCompare(struct guess *answer, int box)
+whiteCompare(struct guess *answer, int box, int white)
 {
-    static int white = 0;
+    //static int white = 0;
     if (box == answer -> boxOne)
     {
         white++;
