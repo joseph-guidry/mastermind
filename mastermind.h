@@ -32,9 +32,9 @@ getAnswer(struct guess *answer)
     */
     int num = 0;
     srand(time(NULL));
-    num =  random() % 10;
+    num =  random() % 9;
     answer->boxOne = num;
-    while((num =  (random() % 10)))
+    while((num =  (random() % 9)))
     {
         if (num == answer->boxOne)
             continue;
@@ -43,7 +43,7 @@ getAnswer(struct guess *answer)
             answer->boxTwo = num;
         }
     }
-    while((num =  (random() % 10)))
+    while((num =  (random() % 9)))
     {
         if ((num == answer->boxOne) || (num == answer->boxOne))
             continue;
@@ -52,7 +52,7 @@ getAnswer(struct guess *answer)
             answer->boxThree = num;
         }
     }
-    while((num =  (random() % 10)))
+    while((num =  (random() % 9)))
     {
         if ((num == answer->boxOne) || (num == answer->boxOne) || (num == answer->boxThree) )
             continue;
@@ -112,35 +112,59 @@ int
 getWhiteValue(struct guess *answer, struct guess *input)
 {
     int white = 0;
+    
     white = whiteCompare(answer, input -> boxOne, white);
     printf("in boxOne: %d \n", white);
+    
+    if (input -> boxTwo != input -> boxOne)
+    {
     white = whiteCompare(answer, input -> boxTwo, white);
     printf("in boxTwo: %d \n", white);
+    }
+    
+    if ((input -> boxThree != input -> boxTwo) && (input -> boxThree != input -> boxOne))
+    {
     white = whiteCompare(answer, input -> boxThree, white);
     printf("in boxThree: %d \n", white);
-    white = whiteCompare(answer, input -> boxFour, white);
+    }
     
+    if ( (input -> boxFour != input -> boxThree) && (input -> boxFour != input -> boxTwo) && (input -> boxFour != input -> boxOne))
+    {
+    white = whiteCompare(answer, input -> boxFour, white);
     printf("in boxFour: %d \n", white);
+    }
+    
     return white;
 }
+
 int
 whiteCompare(struct guess *answer, int box, int white)
 {
     if (box == answer -> boxOne )
     {
         white++;
+        answer->boxOne = 100;
+        printf("Answer One %d White = %d \n", answer->boxOne, white);
     }
     if (box == answer -> boxTwo && ((answer -> boxTwo) != ( answer -> boxOne)) )
     {
         white++;
+        printf("Answer Two White = %d \n", white);
+        answer->boxTwo = 100;
     }
-    if (box == answer -> boxThree && ((answer -> boxTwo != answer -> boxThree) && (answer -> boxOne !=  answer -> boxThree)))
+    if (box == answer -> boxThree && 
+       ((answer -> boxTwo != answer -> boxThree) && (answer -> boxOne != answer -> boxThree)))
     {
         white++;
+        printf("Answer Three White = %d \n", white);
+        answer->boxThree = 100;
     }
-    if ((box == answer -> boxFour) && ((answer -> boxThree != answer -> boxFour) && (answer -> boxTwo != answer -> boxFour) && (answer -> boxOne !=  answer -> boxFour)))
+    if ((box == answer -> boxFour) && 
+       ((answer -> boxThree != answer -> boxFour) && (answer -> boxTwo != answer -> boxFour) 
+         && (answer -> boxOne != answer -> boxFour)))
     {
         white++;
+        printf("Answer Four White = %d \n", white);
     }
     
     return white;

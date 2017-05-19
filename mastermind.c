@@ -5,33 +5,30 @@
 int
 playGame(struct guess *answer, struct guess *input);
 
-
-
 int main(void)
 {
     struct guess answer, input;
     int guess = 0;
+    /* Generate Random Answer */
     getAnswer(&answer);
     printf("%d %d %d %d\n", answer.boxOne, answer.boxTwo, answer.boxThree, answer.boxFour);
     while(1)
     {
+        /* Get user guess */
         getInput(&input);
         printf("%d %d %d %d\n", input.boxOne, input.boxTwo, input.boxThree, input.boxFour);
         guess++;
         
-        
+        /* If correct answer is returned, game ends */
         if (playGame(&answer, &input))
         {
             break;
         }
-        
     }
-    
     printf("You guess it in %d %s.\n", guess, guess == 1 ? "turn" : "turns");
 
     return 0;
 }
-
 int
 playGame(struct guess *answer, struct guess *input)
 {
@@ -42,7 +39,8 @@ playGame(struct guess *answer, struct guess *input)
     int allRed;
     allRed = redCompare(&temp, input);
     printf("Red = %d\n",allRed);
-    printf("white = %d\n", getWhiteValue(&temp, input));
+    printf("%d %d %d %d\n", answer->boxOne, answer->boxTwo, answer->boxThree, answer->boxFour);
+    printf("White = %d\n", getWhiteValue(&temp, input));
     if (allRed == 4)
     {
         return 1;
@@ -54,3 +52,4 @@ playGame(struct guess *answer, struct guess *input)
     }
 
 }
+
