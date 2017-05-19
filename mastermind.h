@@ -10,11 +10,12 @@ typedef struct guess{
 } guess ; 
 
 /* Prototypes */
-
+int
+playGame(struct guess *answer, struct guess *input);
 void
 getAnswer(struct guess *answer);
 int
-getInput(struct guess *input);
+getInput(struct guess *input, int f_present, FILE *pmm);
 int
 makeInt(char letter);
 int
@@ -25,16 +26,36 @@ int
 whiteCompare(struct guess *answer, int box, int white);
 void
 structureCopy(struct guess *temp, struct guess *answer);
+void
+openMM(struct guess *answer);
+//
+//Function Definitions
+//
+int
+playGame(struct guess *answer, struct guess *input)
+{
+    struct guess temp, *ptemp;
+    ptemp = &temp;
+    structureCopy(ptemp, answer);
+    
+    int allRed;
+    allRed = redCompare(&temp, input);
+    printf("Red = %d|",allRed);
+    printf("White = %d|\n", getWhiteValue(&temp, input));
+    return (allRed == 4 ? 1 : 0);
 
+}
 void
 getAnswer(struct guess *answer)
 {
     /*
         Generate random numbers and store in answer structure.
     */
+    
     int num = 0;
     srand(time(NULL));
     num =  random() % 9;
+    
     answer->boxOne = num;
     while((num =  (random() % 9)))
     {
@@ -64,14 +85,41 @@ getAnswer(struct guess *answer)
         }
     }
 }
+void openMM(struct guess *answer)
+{
+    FILE *pmm;
+    
+    if((pmm = fopen(".mm", "r")) == NULL)
+    {
+        //printf(".MM is not present\n");
+        getAnswer(answer);
+    }
+    else
+    {
+        //printf(".MM is present\n");
+        getInput(answer, 1, pmm);
+    }
+}
 int
-getInput(struct guess *input)
+getInput(struct guess *input, int f_present, FILE *pmm)
 {
     // Get input a single character at a time. Skip bad input 
+    FILE *pinput;
+    
     char c;
     int skip = 0;
-    printf("Enter a guess of four digits:  ");
-    if ( (c = fgetc(stdin)) != EOF)
+    
+    pinput = stdin;
+    
+    if (f_present)
+    {
+        pinput = pmm;
+        printf("Secret file has been used. Press any key to continue...");
+    }
+    
+    
+    //printf("Enter a guess of four digits:  ");
+    if ( (c = fgetc(pinput)) != EOF)
     {
         if ((c < '0') || (c > '9'))
         {
@@ -82,7 +130,7 @@ getInput(struct guess *input)
             input -> boxOne = makeInt(c);
         }
     }
-    if ( (c = fgetc(stdin)) != EOF)
+    if ( (c = fgetc(pinput)) != EOF)
     {
         if ((c < '0') && (c > '9'))
             skip = 1;
@@ -91,7 +139,7 @@ getInput(struct guess *input)
             input -> boxTwo = makeInt(c);
         }    
     }
-    if ( (c = fgetc(stdin)) != EOF)
+    if ( (c = fgetc(pinput)) != EOF)
     {
         if ((c < '0') && (c > '9'))
             skip = 1;
@@ -100,7 +148,7 @@ getInput(struct guess *input)
             input -> boxThree = makeInt(c);
         }
     }
-    if ( (c = fgetc(stdin)) != EOF)
+    if ( (c = fgetc(pinput)) != EOF)
     {
         if ((c < '0') && (c > '9'))
             skip = 1;
@@ -117,7 +165,7 @@ getInput(struct guess *input)
         
     }
     return skip;
-}
+} 
 int
 makeInt(char letter)
 {
