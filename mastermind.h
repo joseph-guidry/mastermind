@@ -85,6 +85,7 @@ getAnswer(struct guess *answer)
         }
     }
 }
+
 void openMM(struct guess *answer)
 {
     FILE *pmm;
@@ -100,6 +101,7 @@ void openMM(struct guess *answer)
         getInput(answer, 1, pmm);
     }
 }
+
 int
 getInput(struct guess *input, int f_present, FILE *pmm)
 {
@@ -121,6 +123,10 @@ getInput(struct guess *input, int f_present, FILE *pmm)
     //printf("Enter a guess of four digits:  ");
     if ( (c = fgetc(pinput)) != EOF)
     {
+        if (c == '\n')
+        {
+            return 1;
+        }
         if ((c < '0') || (c > '9'))
         {
             skip = 1;
@@ -132,17 +138,29 @@ getInput(struct guess *input, int f_present, FILE *pmm)
     }
     if ( (c = fgetc(pinput)) != EOF)
     {
+        if (c == '\n')
+        {
+            return 1;
+        }
         if ((c < '0') && (c > '9'))
+        {
             skip = 1;
-        else
+        }
+        else   
         {
             input -> boxTwo = makeInt(c);
         }    
     }
     if ( (c = fgetc(pinput)) != EOF)
     {
+        if (c == '\n')
+        {
+            return 1;
+        }
         if ((c < '0') && (c > '9'))
+        {
             skip = 1;
+        }
          else 
         {
             input -> boxThree = makeInt(c);
@@ -150,8 +168,14 @@ getInput(struct guess *input, int f_present, FILE *pmm)
     }
     if ( (c = fgetc(pinput)) != EOF)
     {
+        if (c == '\n')
+        {
+            return 1;
+        }
         if ((c < '0') && (c > '9'))
+        {
             skip = 1;
+        }
         else 
         {
             input -> boxFour = makeInt(c);
@@ -161,11 +185,11 @@ getInput(struct guess *input, int f_present, FILE *pmm)
     // Drop all characters after 4 digits.
     while ((c = fgetc(stdin)) != '\n')
     {
-        ;
+        skip = 1;
         
     }
     return skip;
-} 
+}
 int
 makeInt(char letter)
 {

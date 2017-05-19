@@ -1,11 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "mastermind.h"
 
-int
-playGame(struct guess *answer, struct guess *input);
-int
-getInput(struct guess *input, int f_present, FILE *pmm);
+#include "mastermind.h"
 
 int main(void)
 {
