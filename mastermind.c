@@ -14,7 +14,7 @@ int main(void)
 
     
     printf("Red = %d\n", redCompare(&answer, &input));
-    printf("white = %d\n", whiteCompare(&answer, input.boxOne));
+    printf("white = %d\n", getWhiteValue(&answer, &input));
 
     return 0;
 }
