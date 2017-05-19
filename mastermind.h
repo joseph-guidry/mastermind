@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+
 typedef struct guess{
     int boxOne;
     int boxTwo;
@@ -9,9 +10,10 @@ typedef struct guess{
 } guess ; 
 
 /* Prototypes */
+
 void
 getAnswer(struct guess *answer);
-void
+int
 getInput(struct guess *input);
 int
 makeInt(char letter);
@@ -62,35 +64,59 @@ getAnswer(struct guess *answer)
         }
     }
 }
-
-void
+int
 getInput(struct guess *input)
 {
-    /* Get input a single character at a time. */
+    // Get input a single character at a time. Skip bad input 
     char c;
-    
+    int skip = 0;
     printf("Enter a guess of four digits:  ");
     if ( (c = fgetc(stdin)) != EOF)
     {
-        input -> boxOne = makeInt(c);
+        if ((c < '0') || (c > '9'))
+        {
+            skip = 1;
+        }
+        else
+        {
+            input -> boxOne = makeInt(c);
+        }
     }
     if ( (c = fgetc(stdin)) != EOF)
     {
-        input -> boxTwo = makeInt(c);
+        if ((c < '0') && (c > '9'))
+            skip = 1;
+        else
+        {
+            input -> boxTwo = makeInt(c);
+        }    
     }
     if ( (c = fgetc(stdin)) != EOF)
     {
-        input -> boxThree = makeInt(c);
+        if ((c < '0') && (c > '9'))
+            skip = 1;
+         else 
+        {
+            input -> boxThree = makeInt(c);
+        }
     }
     if ( (c = fgetc(stdin)) != EOF)
     {
-        input -> boxFour = makeInt(c);
+        if ((c < '0') && (c > '9'))
+            skip = 1;
+        else 
+        {
+            input -> boxFour = makeInt(c);
+        }
     }
-    while((c = fgetc(stdin)) != '\n')
+    
+    // Drop all characters after 4 digits.
+    while ((c = fgetc(stdin)) != '\n')
     {
-        c = getc(stdin);
-        c = 0;
+        ;
+        
     }
+    return skip;
 }
 int
 makeInt(char letter)
@@ -114,24 +140,24 @@ getWhiteValue(struct guess *answer, struct guess *input)
     int white = 0;
     
     white = whiteCompare(answer, input -> boxOne, white);
-    printf("in boxOne: %d \n", white);
+    //printf("in boxOne: %d \n", white);
     
     if (input -> boxTwo != input -> boxOne)
     {
     white = whiteCompare(answer, input -> boxTwo, white);
-    printf("in boxTwo: %d \n", white);
+    //printf("in boxTwo: %d \n", white);
     }
     
     if ((input -> boxThree != input -> boxTwo) && (input -> boxThree != input -> boxOne))
     {
     white = whiteCompare(answer, input -> boxThree, white);
-    printf("in boxThree: %d \n", white);
+    //printf("in boxThree: %d \n", white);
     }
     
     if ( (input -> boxFour != input -> boxThree) && (input -> boxFour != input -> boxTwo) && (input -> boxFour != input -> boxOne))
     {
     white = whiteCompare(answer, input -> boxFour, white);
-    printf("in boxFour: %d \n", white);
+    //printf("in boxFour: %d \n", white);
     }
     
     return white;
@@ -144,19 +170,19 @@ whiteCompare(struct guess *answer, int box, int white)
     {
         white++;
         answer->boxOne = 100;
-        printf("Answer One %d White = %d \n", answer->boxOne, white);
+        //printf("Answer One %d White = %d \n", answer->boxOne, white);
     }
     if (box == answer -> boxTwo && ((answer -> boxTwo) != ( answer -> boxOne)) )
     {
         white++;
-        printf("Answer Two White = %d \n", white);
+        //printf("Answer Two White = %d \n", white);
         answer->boxTwo = 100;
     }
     if (box == answer -> boxThree && 
        ((answer -> boxTwo != answer -> boxThree) && (answer -> boxOne != answer -> boxThree)))
     {
         white++;
-        printf("Answer Three White = %d \n", white);
+        //printf("Answer Three White = %d \n", white);
         answer->boxThree = 100;
     }
     if ((box == answer -> boxFour) && 
@@ -164,7 +190,7 @@ whiteCompare(struct guess *answer, int box, int white)
          && (answer -> boxOne != answer -> boxFour)))
     {
         white++;
-        printf("Answer Four White = %d \n", white);
+        //printf("Answer Four White = %d \n", white);
     }
     
     return white;

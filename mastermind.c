@@ -15,7 +15,11 @@ int main(void)
     while(1)
     {
         /* Get user guess */
-        getInput(&input);
+        if (getInput(&input))
+        {
+            printf("Invalid entry for input\n");
+            continue;
+        }
         printf("%d %d %d %d\n", input.boxOne, input.boxTwo, input.boxThree, input.boxFour);
         guess++;
         
@@ -38,18 +42,10 @@ playGame(struct guess *answer, struct guess *input)
     
     int allRed;
     allRed = redCompare(&temp, input);
-    printf("Red = %d\n",allRed);
+    printf("Red = %d| ",allRed);
     printf("%d %d %d %d\n", answer->boxOne, answer->boxTwo, answer->boxThree, answer->boxFour);
-    printf("White = %d\n", getWhiteValue(&temp, input));
-    if (allRed == 4)
-    {
-        return 1;
-    }
-    else
-    {
-    
-        return 0;
-    }
+    printf("White = %d|\n", getWhiteValue(&temp, input));
+    return (allRed == 4 ? 1 : 0);
 
 }
 
