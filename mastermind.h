@@ -142,7 +142,7 @@ getInput(struct Guess *input, int f_present, FILE *pmm)
         {
             return 1;
         }
-        if ((c < '0') && (c > '9'))
+        if ((c < '0') || (c > '9'))
         {
             skip = 1;      // Identify if input is valid.
         }
@@ -157,7 +157,7 @@ getInput(struct Guess *input, int f_present, FILE *pmm)
         {
             return 1;
         }
-        if ((c < '0') && (c > '9'))
+        if ((c < '0') || (c > '9'))
         {
             skip = 1;      // Identify if input is valid.
         }
@@ -172,7 +172,7 @@ getInput(struct Guess *input, int f_present, FILE *pmm)
         {
             return 1;
         }
-        if ((c < '0') && (c > '9'))
+        if ((c < '0') || (c > '9'))
         {
             skip = 1;      // Identify if input is valid.
         }
