@@ -24,6 +24,7 @@ int main(void)
         if (playGame(&answer, &input))
         {
             printf("You guess it in %d %s.\n", guess, guess == 1 ? "turn" : "turns");
+            break;
         }
     }
     return 0;
